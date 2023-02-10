@@ -1,0 +1,81 @@
+<div class="container mt-5">
+  <p-card [style]="{ width: '35rem', 'margin-bottom': '2em' }">
+    <ng-template pTemplate="header">
+      <div class="d-flex justify-content-between p-3">
+        <div>
+          <div class="p-card-title">
+            {{ teamDetails.team.full_name }} [{{
+              teamDetails.team.abbreviation
+            }}]
+          </div>
+          <div class="p-card-subtitle">
+            {{ teamDetails.team.conference }}ern Conference
+          </div>
+        </div>
+        <button
+          id="remove{{ teamDetails.team.abbreviation }}"
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-times"
+          class="p-button-rounded p-button-danger p-button-text"
+          (click)="removeTeamDetails(teamDetails.team)"
+        ></button>
+      </div>
+      <hr class="m-0 mx-3" />
+    </ng-template>
+    <div class="d-flex justify-content-between">
+      <div class="card-body">
+        <h6><u> Results of past 12 days: </u></h6>
+        <div class="game-results">
+          <p-avatar
+            *ngFor="let game of teamDetails.gamesStatus"
+            [styleClass]="
+              game.status == 'W'
+                ? 'mr-2 result-avatar-green'
+                : 'mr-2 result-avatar-red'
+            "
+            size="xlarge"
+            shape="circle"
+          ></p-avatar>
+        </div>
+        <p class="mt-3">
+          Avg pts scored:
+          <b>{{
+            (teamDetails.pointsScored / teamDetails.totalNumberOfGames).toFixed(
+              0
+            )
+          }}</b>
+        </p>
+        <p class="mt-3">
+          Avg pts conceded:
+          <b>{{
+            (
+              teamDetails.pointsConceded / teamDetails.totalNumberOfGames
+            ).toFixed(0)
+          }}</b>
+        </p>
+      </div>
+      <div>
+        <img
+          src="https://interstate21.com/nba-logos/{{
+            teamDetails.team.abbreviation
+          }}.png"
+          alt="{{ teamDetails.team.abbreviation }}_Logo"
+          width="190px"
+        />
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <button
+        id="results{{ teamDetails.team.abbreviation }}"
+        class="p-button-sm"
+        label="See Game Results"
+        icon="pi pi-angle-double-right"
+        iconPos="right"
+        pButton
+        pRipple
+      ></button>
+    </ng-template>
+  </p-card>
+</div>
