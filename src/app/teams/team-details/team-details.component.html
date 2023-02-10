@@ -1,25 +1,25 @@
-<div class="container mt-5">
+<div *ngIf="dataLoaded" class="container mt-5">
   <p-card [style]="{ width: '35rem', 'margin-bottom': '2em' }">
     <ng-template pTemplate="header">
       <div class="d-flex justify-content-between p-3">
         <div>
           <div class="p-card-title">
-            {{ teamDetails.team.full_name }} [{{
-              teamDetails.team.abbreviation
+            {{ teamGameResuls.team?.full_name }} [{{
+              teamGameResuls.team?.abbreviation
             }}]
           </div>
           <div class="p-card-subtitle">
-            {{ teamDetails.team.conference }}ern Conference
+            {{ teamGameResuls.team?.conference }}ern Conference
           </div>
         </div>
         <button
-          id="remove{{ teamDetails.team.abbreviation }}"
+          id="remove{{ teamGameResuls.team?.abbreviation }}"
           pButton
           pRipple
           type="button"
           icon="pi pi-times"
           class="p-button-rounded p-button-danger p-button-text"
-          (click)="removeTeamDetails(teamDetails.team)"
+          (click)="removeTeamDetails(teamGameResuls.team)"
         ></button>
       </div>
       <hr class="m-0 mx-3" />
@@ -29,7 +29,7 @@
         <h6><u> Results of past 12 days: </u></h6>
         <div class="game-results">
           <p-avatar
-            *ngFor="let game of teamDetails.gamesStatus"
+            *ngFor="let game of gamesStatus"
             [styleClass]="
               game.status == 'W'
                 ? 'mr-2 result-avatar-green'
@@ -41,40 +41,33 @@
         </div>
         <p class="mt-3">
           Avg pts scored:
-          <b>{{
-            (teamDetails.pointsScored / teamDetails.totalNumberOfGames).toFixed(
-              0
-            )
-          }}</b>
+          <b>{{ (pointsScored / totalNumberOfGames).toFixed(0) }}</b>
         </p>
         <p class="mt-3">
           Avg pts conceded:
-          <b>{{
-            (
-              teamDetails.pointsConceded / teamDetails.totalNumberOfGames
-            ).toFixed(0)
-          }}</b>
+          <b>{{ (pointsConceded / totalNumberOfGames).toFixed(0) }}</b>
         </p>
       </div>
       <div>
         <img
           src="https://interstate21.com/nba-logos/{{
-            teamDetails.team.abbreviation
+            teamGameResuls.team?.abbreviation
           }}.png"
-          alt="{{ teamDetails.team.abbreviation }}_Logo"
+          alt="{{ teamGameResuls.team?.abbreviation }}_Logo"
           width="190px"
         />
       </div>
     </div>
     <ng-template pTemplate="footer">
       <button
-        id="results{{ teamDetails.team.abbreviation }}"
+        id="results{{ teamGameResuls.team?.abbreviation }}"
         class="p-button-sm"
         label="See Game Results"
         icon="pi pi-angle-double-right"
         iconPos="right"
         pButton
         pRipple
+        (click)="onSeeGameResultsClick(teamGameResuls.team)"
       ></button>
     </ng-template>
   </p-card>

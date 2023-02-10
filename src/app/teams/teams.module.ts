@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { TeamsRoutingModule } from './teams-routing.module';
@@ -23,9 +23,6 @@ import { GamesResultsComponent } from './games-results/games-results.component';
     ButtonModule,
     CardModule,
     AvatarModule,
-  ],
-  providers: [
-    DatePipe,
   ]
 })
 export class TeamsModule {}

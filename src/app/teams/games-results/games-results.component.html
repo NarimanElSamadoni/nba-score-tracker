@@ -1,1 +1,45 @@
-<p>games-results works!</p>
+<div *ngIf="dataLoaded" class="container mt-5">
+  <p-card [style]="{ width: '25rem', 'margin-bottom': '2em' }">
+    <ng-template pTemplate="header">
+      <div class="d-flex justify-content-between p-3">
+        <div>
+          <div class="p-card-title">
+            {{ team?.full_name }} [{{ team?.abbreviation }}]
+          </div>
+          <div class="p-card-subtitle">{{ team?.conference }}ern Conference</div>
+        </div>
+      </div>
+      <hr class="m-0 mx-3" />
+    </ng-template>
+    <div class="d-flex justify-content-between">
+      <div class="card-body">
+        <h6><u> Scores of past 12 days: </u></h6>
+        <div *ngFor="let game of gameResults" class="game-score">
+          <span
+            ><b>{{ game.home_team.abbreviation }}</b></span
+          >
+          <span
+            >{{ game.home_team_score }} - {{ game.visitor_team_score }}</span
+          >
+          <span
+            ><b>{{ game.visitor_team.abbreviation }}</b></span
+          >
+        </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="d-flex justify-content-center">
+        <button
+          id="backBtn"
+          class="p-button-sm"
+          label="Back to all team stats"
+          icon="pi pi-angle-double-left"
+          iconPos="left"
+          pButton
+          pRipple
+          (click)="onNavigateBack()"
+        ></button>
+      </div>
+    </ng-template>
+  </p-card>
+</div>
