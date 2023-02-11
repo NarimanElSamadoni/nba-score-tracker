@@ -57,8 +57,12 @@ export class TeamDetailsComponent implements OnInit {
   calculateTeamGamesPoints(teamId: number) {
     this.teamGameResuls.gameResults.forEach((game: GameResult) => {
       if (game.home_team.id == teamId) {
-        let status: 'W' | 'L' =
-          game.home_team_score > game.visitor_team_score ? 'W' : 'L';
+        let status: 'W' | 'L' | 'D' =
+          game.home_team_score > game.visitor_team_score
+            ? 'W'
+            : game.home_team_score < game.visitor_team_score
+            ? 'L'
+            : 'D';
         this.gamesStatus.push({
           gameId: game.id,
           status,
@@ -66,8 +70,12 @@ export class TeamDetailsComponent implements OnInit {
         this.pointsScored += game.home_team_score;
         this.pointsConceded += game.visitor_team_score;
       } else if (game.visitor_team.id == teamId) {
-        let status: 'W' | 'L' =
-          game.visitor_team_score > game.home_team_score ? 'W' : 'L';
+        let status: 'W' | 'L' | 'D' =
+          game.visitor_team_score > game.home_team_score
+            ? 'W'
+            : game.visitor_team_score < game.home_team_score
+            ? 'L'
+            : 'D';
         this.gamesStatus.push({
           gameId: game.id,
           status,

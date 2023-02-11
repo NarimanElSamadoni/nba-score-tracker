@@ -1,4 +1,4 @@
 export interface GameStatus {
   gameId: number;
-  status: 'W' | 'L';
+  status: 'W' | 'L' | 'D';
 }

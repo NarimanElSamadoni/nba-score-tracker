@@ -33,7 +33,9 @@
             [styleClass]="
               game.status == 'W'
                 ? 'mr-2 result-avatar-green'
-                : 'mr-2 result-avatar-red'
+                : game.status == 'L'
+                ? 'mr-2 result-avatar-red'
+                : 'mr-2 result-avatar-yellow'
             "
             size="xlarge"
             shape="circle"

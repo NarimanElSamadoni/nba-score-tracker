@@ -35,7 +35,7 @@ export class TrackerComponent implements OnInit {
 
     if (teamIndex == -1) {
       this.teamService.getTeamGameResults(this.selectedTeam.id);
-      this.teamService.addToSelectedTeams(this.selectedTeam);
+      this.teamService.addToSelectedTeamsArray(this.selectedTeam);
     }
   }
 }

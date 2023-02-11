@@ -30,4 +30,10 @@
       content: 'L';
     }
   }
+
+  .result-avatar-yellow {
+    @include result-avatar(var(--yellow-color), 'before') {
+      content: 'D';
+    }
+  }
 }

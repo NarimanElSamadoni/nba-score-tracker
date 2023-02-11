@@ -21,6 +21,6 @@ export class TeamsComponent implements OnInit {
   }
 
   onRemoveTeam(team: Team) {
-    this.teamService.removeFromSelectedTeams(team);
+    this.teamService.removeFromSelectedTeamsArray(team);
   }
 }

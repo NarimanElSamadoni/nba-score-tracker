@@ -26,7 +26,14 @@ export class GamesResultsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.teamId = params['teamCode'];
-      // this.teamService.getTeamGameResults(Number(this.teamId));
+
+      this.teamService.getTeamById(this.teamId).subscribe(result => {
+        this.team = result
+        if (this.team)
+          this.teamService.addToSelectedTeamsArray(this.team);
+      });
+
+      this.teamService.getTeamGameResults(Number(this.teamId));
     });
 
     this.teamService.teamGameResults$.subscribe((result) => {
@@ -34,18 +41,29 @@ export class GamesResultsComponent implements OnInit {
         let teamGameResults = result.get(Number(this.teamId));
         if (teamGameResults != undefined) {
           this.gameResults = teamGameResults.gameResults;
-          // if (teamGameResults.team)
-            this.team = teamGameResults.team;
-          // else {
-          //   this.teamService.getTeamById(this.teamId).subscribe(result => this.team = result);
-          // }
+          if (teamGameResults.team) this.team = teamGameResults.team;
+          else {
+            // this.getTeamFromGameResults();
+          }
           this.dataLoaded = true;
         }
       }
     });
   }
 
+  private getTeamFromGameResults() {
+    let game = this.gameResults.find(
+      (game) =>
+        game.home_team.id == this.teamId || game.visitor_team.id == this.teamId
+    );
+    if (game) {
+      if (game.home_team.id == this.teamId) this.team = game.home_team;
+      else this.team = game.visitor_team;
+    }
+  }
+
   onNavigateBack() {
+
     this.location.back();
   }
 }
