@@ -27,9 +27,9 @@
           <p-avatar
             *ngFor="let game of gamesStatus"
             [styleClass]="
-              game.status == 'W'
+              game.status == GameStatusEnum.WIN
                 ? 'mr-2 result-avatar-green'
-                : game.status == 'L'
+                : game.status == GameStatusEnum.LOSS
                 ? 'mr-2 result-avatar-red'
                 : 'mr-2 result-avatar-yellow'
             "

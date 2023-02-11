@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GameStatusEnum } from '../enums/game-status.enum';
 import { GameResult } from '../models/game-result.model';
 import { GameStatus } from '../models/game-status.model';
 import { TeamGameResults } from '../models/team-game-results.model';
@@ -57,12 +58,12 @@ export class TeamDetailsComponent implements OnInit {
   calculateTeamGamesPoints(teamId: number) {
     this.teamGameResuls.gameResults.forEach((game: GameResult) => {
       if (game.home_team.id == teamId) {
-        let status: 'W' | 'L' | 'D' =
+        let status: GameStatusEnum =
           game.home_team_score > game.visitor_team_score
-            ? 'W'
+            ? GameStatusEnum.WIN
             : game.home_team_score < game.visitor_team_score
-            ? 'L'
-            : 'D';
+            ? GameStatusEnum.LOSS
+            : GameStatusEnum.DRAW;
         this.gamesStatus.push({
           gameId: game.id,
           status,
@@ -70,12 +71,12 @@ export class TeamDetailsComponent implements OnInit {
         this.pointsScored += game.home_team_score;
         this.pointsConceded += game.visitor_team_score;
       } else if (game.visitor_team.id == teamId) {
-        let status: 'W' | 'L' | 'D' =
+        let status: GameStatusEnum =
           game.visitor_team_score > game.home_team_score
-            ? 'W'
+            ? GameStatusEnum.WIN
             : game.visitor_team_score < game.home_team_score
-            ? 'L'
-            : 'D';
+            ? GameStatusEnum.LOSS
+            : GameStatusEnum.DRAW;
         this.gamesStatus.push({
           gameId: game.id,
           status,
@@ -94,5 +95,9 @@ export class TeamDetailsComponent implements OnInit {
     this.router.navigate(['results', team.abbreviation], {
       relativeTo: this.route,
     });
+  }
+
+  get GameStatusEnum() {
+    return GameStatusEnum;
   }
 }
