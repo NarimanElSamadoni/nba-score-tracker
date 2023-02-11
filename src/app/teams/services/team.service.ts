@@ -79,7 +79,6 @@ export class TeamService {
         .subscribe({
           next: (result: { data: GameResult[]; meta: object }) => {
             let teamGameResult: TeamGameResults = {
-              team: this.selectedTeams.find((t) => t.id == teamId),
               gameResults: result.data,
               lastUpdated: this.TODAY_DATE,
             };

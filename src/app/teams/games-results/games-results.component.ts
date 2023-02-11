@@ -42,8 +42,6 @@ export class GamesResultsComponent implements OnInit {
         let teamGameResults = result.get(this.team.id);
         if (teamGameResults != undefined) {
           this.gameResults = teamGameResults.gameResults;
-          if (teamGameResults.team)
-            this.team = teamGameResults.team;
           this.dataLoaded = true;
         }
       }

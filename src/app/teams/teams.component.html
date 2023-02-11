@@ -6,7 +6,7 @@
   >
     <app-team-details
       *ngFor="let team of selectedTeams"
-      [teamId]="team.id"
+      [team]="team"
       (removeTeam)="onRemoveTeam($event)"
     ></app-team-details>
   </div>

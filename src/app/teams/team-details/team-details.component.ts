@@ -12,7 +12,7 @@ import { TeamService } from '../services/team.service';
   styleUrls: ['./team-details.component.scss'],
 })
 export class TeamDetailsComponent implements OnInit {
-  @Input() teamId!: number;
+  @Input() team!: Team;
   @Output() removeTeam: EventEmitter<Team> = new EventEmitter<Team>();
   teamGameResultsMap!: Map<number, TeamGameResults>;
   teamGameResuls!: TeamGameResults;
@@ -32,7 +32,7 @@ export class TeamDetailsComponent implements OnInit {
     this.teamService.teamGameResults$.subscribe((result) => {
       this.teamGameResultsMap = result;
       if (this.teamGameResultsMap.size > 0) {
-        let gameResults = this.teamGameResultsMap.get(this.teamId);
+        let gameResults = this.teamGameResultsMap.get(this.team.id);
         if (gameResults != undefined) {
           this.teamGameResuls = gameResults;
           this.setTeamDetailsData();
@@ -45,7 +45,7 @@ export class TeamDetailsComponent implements OnInit {
   setTeamDetailsData() {
     this.totalNumberOfGames = this.teamGameResuls.gameResults.length;
     this.clearTrackingData();
-    this.calculateTeamGamesPoints(this.teamId);
+    this.calculateTeamGamesPoints(this.team.id);
   }
 
   clearTrackingData() {
@@ -86,16 +86,13 @@ export class TeamDetailsComponent implements OnInit {
     });
   }
 
-  removeTeamDetails(team: Team | undefined) {
-    console.log(team);
-    if (team) this.removeTeam.emit(team);
+  removeTeamDetails(team: Team) {
+    this.removeTeam.emit(team);
   }
 
-  onSeeGameResultsClick(team: Team | undefined) {
-    if (team) {
-      this.router.navigate(['results', team.abbreviation], {
-        relativeTo: this.route,
-      });
-    }
+  onSeeGameResultsClick(team: Team) {
+    this.router.navigate(['results', team.abbreviation], {
+      relativeTo: this.route,
+    });
   }
 }
