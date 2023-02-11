@@ -18,4 +18,20 @@
       (click)="onClickTrackTeam()"
     ></button>
   </div>
+  <!-- Team Details -->
+  <div
+    *ngIf="selectedTeams.length > 0; else noData"
+    class="container d-flex flex-wrap justify-content-between mt-3"
+  >
+    <app-team-details
+      *ngFor="let team of selectedTeams"
+      [team]="team"
+      (removeTeam)="onRemoveTeam($event)"
+    ></app-team-details>
+  </div>
+  <ng-template #noData>
+    <div class="no-data">
+      <h4>No data selected to be tracked yet !!</h4>
+    </div>
+  </ng-template>
 </div>

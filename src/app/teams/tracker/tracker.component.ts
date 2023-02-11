@@ -38,4 +38,8 @@ export class TrackerComponent implements OnInit {
       this.teamService.addToSelectedTeamsArray(this.selectedTeam);
     }
   }
+
+  onRemoveTeam(team: Team) {
+    this.teamService.removeFromSelectedTeamsArray(team);
+  }
 }
