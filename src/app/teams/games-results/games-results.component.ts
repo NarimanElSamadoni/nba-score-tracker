@@ -11,10 +11,10 @@ import { Location } from '@angular/common';
   styleUrls: ['./games-results.component.scss'],
 })
 export class GamesResultsComponent implements OnInit {
-  teamId!: number;
+  teamCode!: string;
   datesRange!: string[];
   gameResults: GameResult[] = [];
-  team: Team | undefined = undefined;
+  team!: Team;
   dataLoaded: boolean = false;
 
   constructor(
@@ -25,45 +25,32 @@ export class GamesResultsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.teamId = params['teamCode'];
+      this.teamCode = params['teamCode'];
 
-      this.teamService.getTeamById(this.teamId).subscribe(result => {
-        this.team = result
-        if (this.team)
+      this.teamService.teamsList$.subscribe(result => {
+        let team = result.find(t => t.abbreviation == this.teamCode);
+        if (team) {
+          this.team = team;
           this.teamService.addToSelectedTeamsArray(this.team);
+          this.teamService.getTeamGameResults(this.team.id);
+        }
       });
-
-      this.teamService.getTeamGameResults(Number(this.teamId));
     });
 
     this.teamService.teamGameResults$.subscribe((result) => {
       if (result.size > 0) {
-        let teamGameResults = result.get(Number(this.teamId));
+        let teamGameResults = result.get(this.team.id);
         if (teamGameResults != undefined) {
           this.gameResults = teamGameResults.gameResults;
-          if (teamGameResults.team) this.team = teamGameResults.team;
-          else {
-            // this.getTeamFromGameResults();
-          }
+          if (teamGameResults.team)
+            this.team = teamGameResults.team;
           this.dataLoaded = true;
         }
       }
     });
   }
 
-  private getTeamFromGameResults() {
-    let game = this.gameResults.find(
-      (game) =>
-        game.home_team.id == this.teamId || game.visitor_team.id == this.teamId
-    );
-    if (game) {
-      if (game.home_team.id == this.teamId) this.team = game.home_team;
-      else this.team = game.visitor_team;
-    }
-  }
-
   onNavigateBack() {
-
     this.location.back();
   }
 }

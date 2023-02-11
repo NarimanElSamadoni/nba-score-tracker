@@ -14,10 +14,10 @@ export class TeamService {
   readonly NUMBER_OF_DAYS = 12;
   readonly TODAY_DATE = new Date();
 
-  teamsList: BehaviorSubject<Team[] | null> = new BehaviorSubject<
-    Team[] | null
-  >(null);
-  teamsList$: Observable<Team[] | null> = this.teamsList.asObservable();
+  teamsList: BehaviorSubject<Team[]> = new BehaviorSubject<
+    Team[]
+  >([]);
+  teamsList$: Observable<Team[]> = this.teamsList.asObservable();
 
   teamGameResultsMap: Map<number, TeamGameResults> = new Map();
   teamGameResults: BehaviorSubject<Map<number, TeamGameResults>> =
@@ -40,8 +40,8 @@ export class TeamService {
 
   constructor(private http: HttpClient, private datePipe: DatePipe) {}
 
-  getAllTeams(): Observable<Team[] | null> {
-    if (this.teamsList.getValue() == null) {
+  getAllTeams(): void {
+    if (this.teamsList.getValue().length == 0) {
       this.http
         .get<{ data: Team[]; meta: object }>(this.BASE_URL + 'teams')
         .subscribe({
@@ -53,7 +53,6 @@ export class TeamService {
           },
         });
     }
-    return this.teamsList$;
   }
 
   getTeamById(id: number): Observable<Team> {
@@ -62,7 +61,7 @@ export class TeamService {
       .pipe((result) => result);
   }
 
-  getTeamGameResults(teamId: number): Observable<Map<number, TeamGameResults>> {
+  getTeamGameResults(teamId: number): void {
     let teamGameResult = this.teamGameResultsMap.get(teamId);
     if (
       !teamGameResult ||
@@ -92,7 +91,6 @@ export class TeamService {
           },
         });
     }
-    return this.teamGameResults$;
   }
 
   addToSelectedTeamsArray(team: Team) {

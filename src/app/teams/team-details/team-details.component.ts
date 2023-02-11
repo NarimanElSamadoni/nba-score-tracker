@@ -93,7 +93,7 @@ export class TeamDetailsComponent implements OnInit {
 
   onSeeGameResultsClick(team: Team | undefined) {
     if (team) {
-      this.router.navigate(['results', team.id], {
+      this.router.navigate(['results', team.abbreviation], {
         relativeTo: this.route,
       });
     }
