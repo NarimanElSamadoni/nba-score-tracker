@@ -27,24 +27,34 @@ export class GamesResultsComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.teamCode = params['teamCode'];
 
-      this.teamService.teamsList$.subscribe(result => {
-        let team = result.find(t => t.abbreviation == this.teamCode);
-        if (team) {
-          this.team = team;
-          this.teamService.addToSelectedTeamsArray(this.team);
-          this.teamService.getTeamGameResults(this.team.id);
-        }
+      this.teamService.teamsList$.subscribe({
+        next: (result) => {
+          let team = result.find(t => t.abbreviation == this.teamCode);
+          if (team) {
+            this.team = team;
+            this.teamService.addToSelectedTeamsArray(this.team);
+            this.teamService.getTeamGameResults(this.team.id);
+          }
+        },
+        error: (error) => {
+          console.error('Something has went wrong! ', error);
+        },
       });
     });
 
-    this.teamService.teamGameResults$.subscribe((result) => {
-      if (result.size > 0) {
-        let teamGameResults = result.get(this.team.id);
-        if (teamGameResults != undefined) {
-          this.gameResults = teamGameResults.gameResults;
-          this.dataLoaded = true;
+    this.teamService.teamGameResults$.subscribe({
+      next: (result) => {
+        if (result.size > 0) {
+          let teamGameResults = result.get(this.team.id);
+          if (teamGameResults != undefined) {
+            this.gameResults = teamGameResults.gameResults;
+            this.dataLoaded = true;
+          }
         }
-      }
+      },
+      error: (error) => {
+        console.error('Something has went wrong! ', error);
+      },
     });
   }
 

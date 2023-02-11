@@ -30,15 +30,20 @@ export class TeamDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.teamService.teamGameResults$.subscribe((result) => {
-      this.teamGameResultsMap = result;
-      if (this.teamGameResultsMap.size > 0) {
-        let gameResults = this.teamGameResultsMap.get(this.team.id);
-        if (gameResults != undefined) {
-          this.teamGameResuls = gameResults;
-          this.setTeamDetailsData();
-          this.dataLoaded = true;
+    this.teamService.teamGameResults$.subscribe({
+      next: (result) => {
+        this.teamGameResultsMap = result;
+        if (this.teamGameResultsMap.size > 0) {
+          let gameResults = this.teamGameResultsMap.get(this.team.id);
+          if (gameResults != undefined) {
+            this.teamGameResuls = gameResults;
+            this.setTeamDetailsData();
+            this.dataLoaded = true;
+          }
         }
+      },
+      error: (error) => {
+        console.error('Something has went wrong! ', error);
       }
     });
   }

@@ -16,15 +16,25 @@ export class TrackerComponent implements OnInit {
   constructor(private teamService: TeamService) {}
 
   ngOnInit(): void {
-    this.teamService.teamsList$.subscribe((data) => {
-      if (data != null) {
-        this.teams = data;
-        this.dataLoaded = true;
+    this.teamService.teamsList$.subscribe({
+      next: (data) => {
+        if (data != null) {
+          this.teams = data;
+          this.dataLoaded = true;
+        }
+      },
+      error: (error) => {
+        console.error('Something has went wrong! ', error);
       }
     });
 
-    this.teamService.selectedTeams$.subscribe((result) => {
-      this.selectedTeams = result;
+    this.teamService.selectedTeams$.subscribe({
+      next: (result) => {
+        this.selectedTeams = result;
+      },
+      error: (error) => {
+        console.error('Something has went wrong! ', error);
+      }
     });
   }
 
